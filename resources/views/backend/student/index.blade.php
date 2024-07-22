@@ -16,6 +16,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">Student List</h6>
             </div>
             <div class="card-body">
+@include('includes.flash_message')
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
@@ -24,8 +25,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Roll No</th>
-                            <th>Address</th>
-                            <th>Temp Address:</th>
+
                             <th>Passout Key</th>
                             <th>Action</th>
                         </tr>
@@ -38,11 +38,17 @@
                             <td>{{$student->name}}</td>
                             <td>{{$student->email}}</td>
                             <td>{{$student->roll_no}}</td>
-                            <td>{{$student->address}}</td>
-                            <td>{{$student->temp_address}}</td>
-                            <td>{{$student->passout_key}}</td>
-                            <td><button class="btn btn-success">Edit</button>
-                                <button class="btn btn-danger">Delete</button>
+                            <td>@include('backend.student.check_passout_status',['passout_key'=>$student->passout_key])
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" href="{{route('backend.student.show',$student->id)}}">View</a>
+{{--                                <a></a><button class="btn btn-success">Edit</button>--}}
+{{--                                <button class="btn btn-danger">Delete</button>--}}
+                                <form style="display:inline-block" method="post" action="{{route('backend.student.destroy',$student->id)}}">
+                                   @csrf
+                                    <input type="hidden" name="_method" value="DELETE"/>
+                                    <input type="submit" value="Delete" class="btn btn-danger">
+                                </form>
                             </td>
                         </tr>
                         @endforeach

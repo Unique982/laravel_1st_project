@@ -21,7 +21,13 @@ class StudentController extends Controller
 
     ]);
     Student::create($request->all());
+    if(student::create($request->all())) {
+        $request->session()->flash('success', 'Student Added Successfully');
+    }else{
+        $request->session()->flash('error','Student creation failed');
+        }
 
+return redirect()->route('backend.student.index');
 
 }
 function index(){
@@ -30,5 +36,17 @@ function index(){
     $students = Student::orderBy('id','desc')->get();
         return view('backend.student.index',compact('students'));
 }
+// view
+function show($id){
+        $student = Student::findOrFail($id);
+        return view('backend.student.show',compact('student'));
 }
+// delete
+    function  destroy($id){
+        $student = Student::findOrFail($id);
+        $student->delete();
+        return redirect()->route('backend.student.index');
+    }
+}
+
 

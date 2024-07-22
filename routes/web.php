@@ -45,6 +45,10 @@ Route::get('backend/student/create',[StudentController::class,'create'])->name('
 Route::post('backend/student/store',[StudentController::class,'store'])->name('backend.student.store')->middleware('auth');
 //Route for student data Display
 Route::get('backend/student/index',[StudentController::class,'index'])->name('backend.student.index')->middleware('auth');
+// show
+Route::get('backend/student/{id}',[StudentController::class,'show'])->name('backend.student.show')->middleware('auth');
+// Delete
+Route::delete('backend/student/{id}',[StudentController::class,'destroy'])->name('backend.student.destroy')->middleware('auth');
 
 Route::get('/backend/food/list', function(){
     return view('backend.food.list');
